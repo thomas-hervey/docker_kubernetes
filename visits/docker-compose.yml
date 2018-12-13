@@ -1,0 +1,11 @@
+version: '3'
+services:
+  redis-server:
+    image: 'redis'
+  node-app:
+    restart: always # automatically restart when container crashes; options include `on-failure`, `"no"`, `always`, `unless-stopped`
+    build: . # build all command
+    ports:
+      - "4001:8081" # link local port to container port
+
+# docker-compose will automatically network our two containers (redis-server and node-app)
