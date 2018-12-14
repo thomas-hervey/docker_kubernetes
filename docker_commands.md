@@ -7,3 +7,4 @@
   - We can run `docker-compose up` instead of `docker run myimage`. Furthermore, instead of the typical `docker build .` and `docker run mymage` commands to build and run, we can run `docker-compose up --build`
   - Two commands for starting/stopping docker-compose commands are like starting/stopping docker-cli commands. To launch in background, add the `-d` flag like `docker-compose up -d`. We can close them down using `docker-compose down`
   - `docker-compose ps` must be run within a directory with *docker-compose*, and lists the docker-compose containers that are running given the ones in that compose file.
+- To make sure a container updates when local changes are made, we need to change our *run* command. We can additionally put a bookmark on the *node_modules* folder, and map the pwd into the app folder like so: `docker run -p 3000:3000 -v /app/node_modules -v "$(pwd):/app" <image_id>`

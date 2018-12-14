@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web: # service for running our web server
+    build:
+      context: . # find all files within this root folder
+      dockerfile: Dockerfile.dev # specify what dockerfile to use
+    ports:
+      - "3000:3000" # mapping ports from local to container
+    volumes:
+      - /app/node_modules # shorthand to have container reference to node_modules on the container, not locally?
+      - .:/app # map current folder outside the container into the `/app` folder
+  tests: # service for running test
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"] # override a starting command, so that it starts with `npm run test` and not `npm run start`
