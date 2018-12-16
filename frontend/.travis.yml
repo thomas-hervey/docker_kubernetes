@@ -1,0 +1,22 @@
+sudo: required # superuser permissions required
+services:
+  - docker # pull down a copy of docker
+
+before_install: # setup before running tests & deploy
+  - docker build -t tomtom92/docker-react -f Dockerfile.dev . # build docker image using tag
+
+script: # commands to run to execute tests
+  - docker run tomtom92/docker-react npm run test -- --coverage # start up docker container and run tests in it (NOTE: -- --coverage exits the test suite, so Travis-CI doesn't throw an issue)
+
+deploy: # configuration for deployment
+  provider: elasticbeanstalk # NOTE: travis-ci has several built in providers, like DigitalOcean
+  region: "us-west-1" # host region (as created on AWS)
+  app: "docker-react" # name of app (as created on AWS)
+  env: "DockerReact-env" # environment (as created on AWS)
+  bucket_name: "elasticbeanstalk-us-west-1-621577575416" # reference to AWS S3 bucket where code should be stored
+  bucket_path: "docker-react" # path to folder (default to app name)
+  on:
+    branch: master # only deploy when changes are made to master branch
+  access_key_id: $AWS_ACCESS_KEY # access key id for travis to communicate with AWS (NOTE: generated using AWS IME, manually added to travi-ci under online interface settings)
+  secret_access_key: # secret access key for travis to communicate with AWS (NOTE: generated using AWS IME, manually added to travi-ci under online interface settings)
+    secure: "$AWS_SECRET_KEY"

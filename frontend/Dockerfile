@@ -19,6 +19,8 @@ RUN npm run build
 # copy build folder and run nginx
 
 FROM nginx
+# (NOTE: for developer to read, it doesn't do anything on it's own. However, AWS Elastic Beanstalk looks at exposed instruction and set it as the port for mapped instruction)
+EXPOSE 80
 # only copy over build folder from the builder phase (where from, where to)
 COPY --from=builder /app/build /usr/share/nginx/html
 
